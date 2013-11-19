@@ -44,7 +44,7 @@ module.exports = Backbone.View.extend({
         // Append the siteurl if it exists
         if (config.siteurl) {
           this.media.each(function(m) {
-            [config.siteurl, m].join('/');
+            m.set('path', util.appendFilename(config.siteurl, m.get('path')));
           });
         }
       }
