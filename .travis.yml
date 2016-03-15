@@ -12,15 +12,3 @@ node_js:
   - "iojs"
 notifications:
   email: false
-
-install:
-  - npm install -g codeclimate-test-reporter
-
-after_script:
-  - codeclimate-test-reporter < coverage/lcov.info
-
-addons:
-  code_climate:
-      repo_token: b4da0635e6572389e8bbc1e4a67ccd5930f371f221b5d5065efafd6c81f78fa0
-
-
