@@ -37,10 +37,8 @@
     "gulp-shell": "^0.2.7",
     "gulp-uglify": "^0.3.1",
     "gulp-watch": "^0.6.8",
-    "istanbul": "^0.4.2",
     "mocha": "~1.9.0",
     "mocha-phantomjs": "~3.3.2",
-    "mocha-phantomjs-istanbul": "0.0.2",
     "phantomjs": "~1.9.7-4",
     "request": "~2.16.2",
     "serve": "^1.4.0",
@@ -50,7 +48,7 @@
     "vinyl-source-stream": "^0.1.1"
   },
   "scripts": {
-    "test": "gulp && istanbul cover mocha-phantomjs test/index.html",
+    "test": "gulp && mocha-phantomjs test/index.html",
     "start": "gulp watch & serve"
   },
   "browserify": {
