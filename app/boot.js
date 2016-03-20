@@ -20,6 +20,7 @@ var config = require('./config');
 var cookie = require('./cookie');
 var auth = require('./config');
 var status = require('./status');
+var util = require('./util');
 
 // Set up translations
 var setLanguage = (cookie.get('lang')) ? true : false;
@@ -27,12 +28,7 @@ var setLanguage = (cookie.get('lang')) ? true : false;
 // Check if the browsers language is supported
 if (setLanguage) app.locale = cookie.get('lang');
 
-if (app.locale && app.locale !== 'en') {
-  $.getJSON('./translations/locales/' + app.locale + '.json', function(result) {
-    window.locale[app.locale] = result;
-    window.locale.current(app.locale);
-  });
-}
+util.loadLanguage(app.locale)
 
 var user = new User();
 

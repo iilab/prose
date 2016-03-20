@@ -4,6 +4,7 @@ var _ = require('underscore');
 var cookie = require('../cookie');
 var templates = require('../../dist/templates');
 var LOCALES = require('../../translations/locales');
+var util = require('../util');
 
 module.exports = Backbone.View.extend({
   className: 'inner deep prose limiter',
@@ -34,12 +35,7 @@ module.exports = Backbone.View.extend({
       // Check if the browsers language is supported
       app.locale = code;
 
-      if (app.locale && app.locale !== 'en') {
-          $.getJSON('./translations/locales/' + app.locale + '.json', function(result) {
-              window.locale[app.locale] = result;
-              window.locale.current(app.locale);
-          });
-      }
+      util.loadLanguage(app.locale);
 
       // Reflect changes. Could be more elegant.
       window.location.reload();

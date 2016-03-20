@@ -2,6 +2,7 @@ var $ = require('jquery-browserify');
 var _ = require('underscore');
 var templates = require('../dist/templates');
 var chrono = require('chrono');
+var yaml = require('js-yaml');
 
 module.exports = {
 
@@ -296,5 +297,16 @@ module.exports = {
     } catch (err) {
         return t('notification.error.github');
     }
+  },
+
+  loadLanguage: function(locale) {
+    if (locale && locale !== 'en') {
+      $.get('./translations/locales/' + locale + '.yaml', function(result) {
+        var res = yaml.safeLoad(result)
+        window.locale[locale] = res[locale];
+        window.locale.current(locale);
+      });
+    }
   }
+
 };

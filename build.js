@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var glob = require('glob');
 var _ = require('underscore');
-var en = require('./translations/locales/en.json');
+var yaml = require('js-yaml');
 
 // Builds html partials into a distributable object to keep index.html clean
 var templates = glob.sync('templates/**/*.html').reduce(function(memo, file) {
@@ -35,6 +35,5 @@ var templates = glob.sync('templates/**/*.html').reduce(function(memo, file) {
 }, {});
 
 fs.writeFileSync('dist/templates.js', 'module.exports = ' + JSON.stringify(templates) + ';');
-
 // Default language is english. Cache this as a data for speed.
-fs.writeFileSync('dist/en.js', 'module.exports = ' + JSON.stringify(en) + ';');
+fs.writeFileSync('dist/en.js', 'module.exports = ' + JSON.stringify(yaml.safeLoad(fs.readFileSync('./translations/application.yaml', 'utf8'))['en']) + ';');
