@@ -21,6 +21,7 @@ en:
     subHeading: "Sub Heading"
     link: "Insert Link"
     image: "Insert Image"
+    include: "Insert Content"
     bold: "Bold"
     italic: "Italic"
     blockquote: "Blockquote"
@@ -161,6 +162,17 @@ en:
         {input} <a>selecting one</a>
       help: "Images uploaded are added to the current directory or one specified in the Image URL path above."
       helpMedia: "Images uploaded are added to the 'Choose Existing' directory or one specified in the Image URL field."
+      choose: "Choose Existing"
+    include:
+      title: "Insert Content"
+      back: "Back"
+      hrefPlaceholder: "Content URL"
+      altPlaceholder: "Alt text (optional)"
+      description: |
+        Upload content by Dragging &amp; Dropping or </br>
+        {input} <a>selecting one</a>
+      help: "Content is included and linked to the URL path above."
+      helpInclude: "Content uploaded is added to the 'Choose Existing' directory or one specified in the Content URL field."
       choose: "Choose Existing"
     help:
       blockElements:
