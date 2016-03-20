@@ -225,6 +225,33 @@ module.exports = Backbone.View.extend({
               }
             }
           break;
+          case 'include':
+            tmpl = _(templates.dialogs.include).template();
+            $dialog.append(tmpl({
+              description: t('dialogs.include.description', {
+                input: '<input id="upload" class="upload" type="file" />'
+              }),
+              includeDirectory: true,
+              writable: self.file.get('writable')
+            }));
+
+            if (self.media && self.media.length) self.renderMedia(self.media);
+
+            if (selection) {
+              var include = /\:\[([^\[]*)\]\(([^\)]+)\)/;
+              var src;
+              var alt;
+
+              if (include.test(selection)) {
+                var includeParts = include.exec(selection);
+                alt = includeParts[1];
+                src = includeParts[2];
+
+                $('input[name=url]', $dialog).val(src);
+                if (alt) $('input[name=alt]', $dialog).val(alt);
+              }
+            }
+          break;
           case 'help':
             tmpl = _(templates.dialogs.help).template();
             $dialog.append(tmpl({
@@ -480,5 +507,46 @@ module.exports = Backbone.View.extend({
       }
       return false;
     });
+  },
+
+  renderInclude: function(data, back) {
+    var self = this;
+    var $include = this.$el.find('#include');
+    var tmpl = _(templates.dialogs.includedirectory).template();
+
+    // Reset some stuff
+    $media.empty();
+
+    if (back && (back.join() !== this.assetsDirectory)) {
+      var link = back.slice(0, back.length - 1).join('/');
+      $media.append('<li class="directory back"><a href="' + link + '"><span class="ico fl small inline back"></span>Back</a></li>');
+    }
+
+    data.each(function(d) {
+      var parts = d.get('path').split('/');
+      var path = parts.slice(0, parts.length - 1).join('/');
+
+      $media.append(tmpl({
+        name: d.get('name'),
+        type: d.get('type'),
+        path: path + '/' + encodeURIComponent(d.get('name')),
+        isMedia: util.isMedia(d.get('name').split('.').pop())
+      }));
+    });
+
+    $('.asset a', $media).on('click', function(e) {
+      var href = $(this).attr('href');
+      var alt = util.trim($(this).text());
+
+      if (util.isImage(href.split('.').pop())) {
+        self.$el.find('input[name="url"]').val(href);
+        self.$el.find('input[name="alt"]').val(alt);
+      } else {
+        self.view.editor.replaceSelection(href);
+        self.view.editor.focus();
+      }
+      return false;
+    });
   }
+
 });
