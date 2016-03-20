@@ -239,6 +239,13 @@ module.exports = Backbone.View.extend({
             }
           }
           break;
+        case ':':
+          if (!match.lineBreak.test(selection) &&
+              selection.charAt(1) === '[' &&
+              selection.charAt(selection.length - 1) === ')') {
+              this.toolbar.highlight('include');
+          }
+          break;
         case '!':
           if (!match.lineBreak.test(selection) &&
               selection.charAt(1) === '[' &&
