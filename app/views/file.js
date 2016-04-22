@@ -6,6 +6,7 @@ var jsyaml = require('js-yaml');
 var patch = require('../../vendor/liquid.patch');
 var Handsontable = require('handsontable');
 var Papa = require('papaparse');
+var hercule = require('hercule');
 
 var ModalView = require('./modal');
 var marked = require('marked');
@@ -693,12 +694,36 @@ module.exports = Backbone.View.extend({
     } else {
       if (e) e.preventDefault();
 
-      this.$el.find('#preview').html(marked(this.compilePreview(this.model.get('content'))));
+      // const rs = new Readable({ objectMode: true });
 
-      this.mode = 'blob';
-      this.contentMode('preview');
-      this.nav.setFileState('blob');
-      this.updateURL();
+      // rs._read = function read() {
+      //   this.push('Not implemented');
+      //   this.push(null);
+      // };
+
+      // hercule.transcludeString(this.model.get('content'), { inflate: rs }, (err, output) => {
+      //   // Handle exceptions like dead links
+      //   if (err) console.log(err)
+
+      //   this.$el.find('#preview').html(marked(this.compilePreview(output)));
+
+      //   this.mode = 'blob';
+      //   this.contentMode('preview');
+      //   this.nav.setFileState('blob');
+      //   this.updateURL();
+      // });
+
+      hercule.transcludeString(this.model.get('content'),(err, output) => {
+        // Handle exceptions like dead links
+        if (err) console.log(err)
+
+        this.$el.find('#preview').html(marked(this.compilePreview(output)));
+
+        this.mode = 'blob';
+        this.contentMode('preview');
+        this.nav.setFileState('blob');
+        this.updateURL();
+      });
     }
   },
 

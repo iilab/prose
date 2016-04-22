@@ -26,7 +26,7 @@ module.exports = Backbone.Collection.extend({
         break;
     }
   },
-
+  
   initialize: function(models, options) {
     _.bindAll(this);
 
